@@ -22,6 +22,7 @@ jobs:
       - run: echo $SSH > RezaBinar.pem
         env:
           SSH: ${{ secrets.SSH }}
+      - run: chmod 400 RezaBinar.pem
       - run: ssh -i RezaBinar.pem ubuntu@54.254.67.88 -o StrictHostKeyChecking=no
       - run: sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env:
