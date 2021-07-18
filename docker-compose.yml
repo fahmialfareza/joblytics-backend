@@ -1,0 +1,11 @@
+version: '2.4'
+
+services:
+  joblytics-backend:
+    build:
+      context: .
+    command: npm run dev
+    volumes:
+      - .:/app
+    ports:
+      - 3000:3000

@@ -1,0 +1,10 @@
+.DS_Store
+.env.development
+.env.test
+node_modules
+config.json
+access.log
+coverage
+package-lock.json
+yarn.lock
+Rewind Class
