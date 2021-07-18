@@ -27,6 +27,5 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - run: sudo docker pull fahmialfareza/joblytics-backend
-      - run: sudo docker kill $$(sudo docker ps -q)
-      - run: sudo docker rm $$(sudo docker ps -a -q)
+      - run: sudo ./killdocker.sh
       - run: sudo docker run -p 80:3000 -d fahmialfareza/joblytics-backend
