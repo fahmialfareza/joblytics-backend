@@ -1,0 +1,33 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo "MONGO_URI"=$ENVIRONMENT_PRODUCTION_MONGO_URI > .env.production
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+      - run: cd auth && docker build -t fahmialfareza/joblytics-backend .
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - run: docker push fahmialfareza/joblytics-backend
+      - run: echo $SSH > RezaBinar.pem
+        env:
+          SSH: ${{ secrets.SSH }}
+      - run: ssh -i RezaBinar.pem ubuntu@54.254.67.88 -o StrictHostKeyChecking=no
+      - run: sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - run: sudo docker pull fahmialfareza/joblytics-backend
+      - run: sudo docker kill $(sudo docker ps -q)
+      - run: sudo docker rm $(sudo docker ps -a -q)
+      - run: sudo docker run -p 80:3000 -d fahmialfareza/joblytics-backend
