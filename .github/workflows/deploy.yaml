@@ -19,10 +19,6 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - run: docker push fahmialfareza/joblytics-backend
-      - run: 'echo "$SSH" > RezaBinar.pem'
-        shell: bash
-        env:
-          SSH_KEY: ${{secrets.SSH}}
       - run: chmod 400 RezaBinar.pem
       - run: ssh -i RezaBinar.pem ubuntu@54.254.67.88 -o StrictHostKeyChecking=no
       - run: sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
