@@ -13,7 +13,7 @@ jobs:
       - run: echo "MONGO_URI"=$ENVIRONMENT_PRODUCTION_MONGO_URI > .env.production
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
-      - run: cd auth && docker build -t fahmialfareza/joblytics-backend .
+      - run: docker build -t fahmialfareza/joblytics-backend .
       - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
