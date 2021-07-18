@@ -23,10 +23,11 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
+      - uses: actions/checkout@v2
       - run: sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       - run: sudo docker pull fahmialfareza/joblytics-backend
-      - run: sudo bash killdocker.sh
+      - run: sudo bash ./killdocker.sh
       - run: sudo docker run -p 80:3000 -d fahmialfareza/joblytics-backend
