@@ -16,6 +16,9 @@ const helmet = require('helmet');
 const cors = require('cors');
 const morgan = require('morgan');
 
+// PORT
+const port = process.env.PORT || 3000;
+
 // Import routes
 const hello = require('./routes/hello');
 
@@ -96,7 +99,7 @@ app.use(errorHandler);
 // If environment is not test
 if (process.env.NODE_ENV !== 'test') {
   // Running server
-  app.listen(3000, () => console.log('Server running on 3000'));
+  app.listen(port, () => console.log(`Server running on ${port}`));
 }
 
 // Export for unit testing
