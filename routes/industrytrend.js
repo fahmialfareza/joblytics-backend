@@ -3,10 +3,10 @@ const express = require('express');
 // Import validator
 
 // Import controller
-const { hello } = require('../controllers/hello');
+const { getIndustryTrends } = require('../controllers/industrytrend');
 
 const router = express.Router();
 
-router.get('/', hello);
+router.post('/', getIndustryTrends);
 
 module.exports = router;

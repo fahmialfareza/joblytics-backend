@@ -10,9 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: echo "MONGO_URI"=$ENVIRONMENT_PRODUCTION_MONGO_URI > .env.production
+      - run: echo "MYSQL_USERNAME"=$MYSQL_USERNAME > .env.production
         env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
+          MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+      - run: echo "MYSQL_PASSWORD"=$MYSQL_PASSWORD >> .env.production
+        env:
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      - run: echo "MYSQL_DATABASE"=$MYSQL_DATABASE >> .env.production
+        env:
+          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+      - run: echo "MYSQL_HOST"=$MYSQL_HOST >> .env.production
+        env:
+          MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
       - run: docker build -t fahmialfareza/joblytics-backend .
       - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env:

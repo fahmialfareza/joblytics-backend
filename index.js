@@ -8,7 +8,6 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 
 // Security Package
-const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
@@ -20,7 +19,21 @@ const morgan = require('morgan');
 const port = process.env.PORT || 3000;
 
 // Import routes
-const hello = require('./routes/hello');
+const jobvsbootcamp = require('./routes/jobvsbootcamp');
+const bootcamp = require('./routes/bootcamp');
+const bootcamptrendbyyear = require('./routes/bootcamptrendbyyear');
+const city = require('./routes/city');
+const company = require('./routes/company');
+const companyjobdemand = require('./routes/companyjobdemand');
+const industry = require('./routes/industry');
+const industryneed = require('./routes/industryneed');
+const industrytrend = require('./routes/industrytrend');
+const job = require('./routes/job');
+const jobtrend = require('./routes/jobtrend');
+const jobtrendbycity = require('./routes/jobtrendbycity');
+const skill = require('./routes/skill');
+const skilltrend = require('./routes/skilltrend');
+const year = require('./routes/year');
 
 /* Import errorHandler */
 const errorHandler = require('./middlewares/errorHandler');
@@ -28,20 +41,19 @@ const errorHandler = require('./middlewares/errorHandler');
 // Make express app
 const app = express();
 
+// CORS
+app.use(cors());
+
 // Body-parser to read req.body
 app.use(express.json()); // Enable req.body JSON type
-app.use(
-  express.urlencoded({
-    extended: true,
-  })
-); // Support urlencode body
+// app.use(
+//   express.urlencoded({
+//     extended: true,
+//   })
+// ); // Support urlencode body
 
 // To read form-data request
 app.use(fileUpload());
-
-// Add more security
-// Sanitize data
-app.use(mongoSanitize());
 
 // Prevent XSS attact
 app.use(xss());
@@ -64,9 +76,6 @@ app.use(
   })
 );
 
-// CORS
-app.use(cors());
-
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 } else {
@@ -86,11 +95,25 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.static('public'));
 
 // Make routes
-app.use('/', hello);
+app.use('/bootcamp', bootcamp);
+app.use('/bootcamptrendbyyear', bootcamptrendbyyear);
+app.use('/jobvsbootcamp', jobvsbootcamp);
+app.use('/city', city);
+app.use('/company', company);
+app.use('/companyjobdemand', companyjobdemand);
+app.use('/industry', industry);
+app.use('/industryneed', industryneed);
+app.use('/industrytrend', industrytrend);
+app.use('/job', job);
+app.use('/jobtrend', jobtrend);
+app.use('/jobtrendbycity', jobtrendbycity);
+app.use('/skill', skill);
+app.use('/skilltrend', skilltrend);
+app.use('/year', year);
 
 // Not found
 app.all('*', (req, res, next) => {
-  next({ message: 'Not Found', status: 404 });
+  next({ message: 'Not Found', statusCode: 404 });
 });
 
 /* User errorHandler */
