@@ -94,6 +94,14 @@ if (process.env.NODE_ENV === 'development') {
 // Set static file directory
 app.use(express.static('public'));
 
+app.get('/', async (req, res, next) => {
+  try {
+    res.redirect('https://documenter.getpostman.com/view/3884681/TzsWtV5N');
+  } catch (error) {
+    next(error);
+  }
+});
+
 // Make routes
 app.use('/bootcamp', bootcamp);
 app.use('/bootcamptrendbyyear', bootcamptrendbyyear);
