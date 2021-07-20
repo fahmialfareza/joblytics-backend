@@ -6,6 +6,16 @@ exports.getJobVsBootcamp = async (req, res, next) => {
       req.body = {};
     }
 
+    if (req.body) {
+      req.body.year_start &&
+        req.body.year_end &&
+        (req.body.year_id = {
+          [Op.between]: [req?.body?.year_start, req?.body?.year_end],
+        }) &&
+        delete req.body.year_start &&
+        delete req.body.year_end;
+    }
+
     const data = await jobvsbootcamp.findAll({
       where: req.body,
       include: [

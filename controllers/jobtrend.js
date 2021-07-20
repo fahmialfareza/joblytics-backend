@@ -15,8 +15,7 @@ exports.getJobTrends = async (req, res, next) => {
         }) &&
         delete req.body.year_start &&
         delete req.body.year_end;
-      req.body.industry_id &&
-        (req.body.industry_id = { [Op.in]: req?.body?.industry_id });
+      req.body.job_id && (req.body.job_id = { [Op.in]: req?.body?.job_id });
     }
 
     const data = await jobtrend.findAll({

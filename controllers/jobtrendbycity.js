@@ -6,6 +6,11 @@ exports.getJobTrendByCities = async (req, res, next) => {
       req.body = {};
     }
 
+    if (req.body) {
+      req.body.job_id && (req.body.job_id = { [Op.in]: req?.body?.job_id });
+      req.body.city_id && (req.body.city_id = { [Op.in]: req?.body?.city_id });
+    }
+
     const data = await jobtrendbycity.findAll({
       where: req.body,
       include: [
