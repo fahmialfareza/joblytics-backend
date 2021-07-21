@@ -25,32 +25,6 @@ exports.getYears = async (req, res, next) => {
 
     const data = await year.findAll({
       where: req.body,
-      include: [
-        {
-          model: jobtrend,
-          include: [{ model: job }],
-        },
-        {
-          model: industrytrend,
-          include: [{ model: industry }],
-        },
-        {
-          model: skilltrend,
-          include: [{ model: skill }],
-        },
-        {
-          model: industryneed,
-          include: [{ model: industry }],
-        },
-        {
-          model: bootcamptrendbyyear,
-          include: [{ model: bootcamp }],
-        },
-        {
-          model: jobvsbootcamp,
-          include: [{ model: job }, { model: bootcamp }],
-        },
-      ],
     });
 
     if (data.length === 0) {
