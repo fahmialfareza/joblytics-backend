@@ -1,9 +1,14 @@
-const { city, jobtrendbycity } = require('../models');
+const { Op } = require('sequelize');
+const { city, jobtrendbycity, job } = require('../models');
 
 exports.getCities = async (req, res, next) => {
   try {
     if (!req.body) {
       req.body = {};
+    }
+
+    if (req.body) {
+      req.body.id && (req.body.id = { [Op.in]: req?.body?.id });
     }
 
     const data = await city.findAll({
@@ -12,6 +17,7 @@ exports.getCities = async (req, res, next) => {
         // Include is join
         {
           model: jobtrendbycity,
+          include: [{ model: job }],
         },
       ],
     });

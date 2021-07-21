@@ -1,9 +1,16 @@
+const { Op } = require('sequelize');
 const { companyjobdemand, job, company } = require('../models');
 
 exports.getCompanyJobDemand = async (req, res, next) => {
   try {
     if (!req.body) {
       req.body = {};
+    }
+
+    if (req.body) {
+      req.body.company_id &&
+        (req.body.company_id = { [Op.in]: req?.body?.company_id });
+      req.body.job_id && (req.body.job_id = { [Op.in]: req?.body?.job_id });
     }
 
     const data = await companyjobdemand.findAll({

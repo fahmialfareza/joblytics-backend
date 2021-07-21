@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const {
   year,
   jobtrend,
@@ -6,6 +7,10 @@ const {
   industryneed,
   bootcamptrendbyyear,
   jobvsbootcamp,
+  job,
+  industry,
+  skill,
+  bootcamp,
 } = require('../models');
 
 exports.getYears = async (req, res, next) => {
@@ -14,26 +19,36 @@ exports.getYears = async (req, res, next) => {
       req.body = {};
     }
 
+    if (req.body) {
+      req.body.id && (req.body.id = { [Op.in]: req?.body?.id });
+    }
+
     const data = await year.findAll({
       where: req.body,
       include: [
         {
           model: jobtrend,
+          include: [{ model: job }],
         },
         {
           model: industrytrend,
+          include: [{ model: industry }],
         },
         {
           model: skilltrend,
+          include: [{ model: skill }],
         },
         {
           model: industryneed,
+          include: [{ model: industry }],
         },
         {
           model: bootcamptrendbyyear,
+          include: [{ model: bootcamp }],
         },
         {
           model: jobvsbootcamp,
+          include: [{ model: job }, { model: bootcamp }],
         },
       ],
     });

@@ -1,4 +1,5 @@
-const { company, companyjobdemand } = require('../models');
+const { Op } = require('sequelize');
+const { company, companyjobdemand, job } = require('../models');
 
 exports.getCompanies = async (req, res, next) => {
   try {
@@ -6,11 +7,16 @@ exports.getCompanies = async (req, res, next) => {
       req.body = {};
     }
 
+    if (req.body) {
+      req.body.id && (req.body.id = { [Op.in]: req?.body?.id });
+    }
+
     const data = await company.findAll({
       where: req.body,
       include: [
         {
           model: companyjobdemand,
+          include: [{ model: job }],
         },
       ],
     });

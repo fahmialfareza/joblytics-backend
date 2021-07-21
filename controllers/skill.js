@@ -1,4 +1,5 @@
-const { skill, skilltrend } = require('../models');
+const { Op } = require('sequelize');
+const { skill, skilltrend, year } = require('../models');
 
 exports.getSkills = async (req, res, next) => {
   try {
@@ -6,11 +7,16 @@ exports.getSkills = async (req, res, next) => {
       req.body = {};
     }
 
+    if (req.body) {
+      req.body.id && (req.body.id = { [Op.in]: req?.body?.id });
+    }
+
     const data = await skill.findAll({
       where: req.body,
       include: [
         {
           model: skilltrend,
+          include: [{ model: year }],
         },
       ],
     });

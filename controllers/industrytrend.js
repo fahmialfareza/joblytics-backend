@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { industrytrend, industry, year } = require('../models');
 
 exports.getIndustryTrends = async (req, res, next) => {

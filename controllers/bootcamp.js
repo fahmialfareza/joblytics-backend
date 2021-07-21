@@ -1,9 +1,20 @@
-const { bootcamp, bootcamptrendbyyear, jobvsbootcamp } = require('../models');
+const { Op } = require('sequelize');
+const {
+  bootcamp,
+  bootcamptrendbyyear,
+  jobvsbootcamp,
+  year,
+  job,
+} = require('../models');
 
 exports.getBootcamps = async (req, res, next) => {
   try {
     if (!req.body) {
       req.body = {};
+    }
+
+    if (req.body) {
+      req.body.id && (req.body.id = { [Op.in]: req?.body?.id });
     }
 
     const data = await bootcamp.findAll({
@@ -12,9 +23,11 @@ exports.getBootcamps = async (req, res, next) => {
         // Include is join
         {
           model: bootcamptrendbyyear,
+          include: [{ model: year }],
         },
         {
           model: jobvsbootcamp,
+          include: [{ model: job }, { model: year }],
         },
       ],
     });

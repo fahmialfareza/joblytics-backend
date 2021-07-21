@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { jobvsbootcamp, bootcamp, job, year } = require('../models');
 
 exports.getJobVsBootcamp = async (req, res, next) => {
