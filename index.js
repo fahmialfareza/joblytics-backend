@@ -34,6 +34,10 @@ const jobtrendbycity = require('./routes/jobtrendbycity');
 const skill = require('./routes/skill');
 const skilltrend = require('./routes/skilltrend');
 const year = require('./routes/year');
+const datascienceexperience = require('./routes/datascienceexperience');
+const datasciencerole = require('./routes/datasciencerole');
+const datasciencetopskill = require('./routes/datasciencetopskill');
+const futureofwork = require('./routes/futureofwork');
 
 /* Import errorHandler */
 const errorHandler = require('./middlewares/errorHandler');
@@ -118,6 +122,10 @@ app.use('/jobtrendbycity', jobtrendbycity);
 app.use('/skill', skill);
 app.use('/skilltrend', skilltrend);
 app.use('/year', year);
+app.use('/datascienceexperience', datascienceexperience);
+app.use('/datasciencerole', datasciencerole);
+app.use('/datasciencetopskill', datasciencetopskill);
+app.use('/futureofwork', futureofwork);
 
 // Not found
 app.all('*', (req, res, next) => {
